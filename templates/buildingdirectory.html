@@ -4,5 +4,21 @@
 {% block content%}
 
 <!-- Individual page content goes here -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
 
+<link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+<script type="module" src="../static/js/index.js"></script>
+
+<input class="form-control me-2" id="pac-input" type="search" placeholder="Enter a location" />
+<div id="map"></div>
+<div id="infowindow-content">
+      <span id="place-name" class="title"></span><br />
+      <span id="place-address"></span>
+</div>
+
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2I7q4pd3YMVYHD1Z1CNsSuJTgKdXQoso&callback=initMap&libraries=places&v=weekly"
+defer
+></script>
 {% endblock%}

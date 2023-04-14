@@ -36,3 +36,28 @@ html{
 .homepage-content p {
     font-size: 25px;
 }
+
+/* MAP
+ */
+ html,
+ body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ #map {
+  height: calc(100% - 56px - 56px - 38px);
+}
+
+#infowindow-content .title {
+  font-weight: bold;
+}
+
+#infowindow-content {
+  display: none;
+}
+
+#map #infowindow-content {
+  display: inline;
+}
