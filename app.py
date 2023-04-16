@@ -1,9 +1,13 @@
 from flask import *
+from flask import Flask, render_template, request, redirect, url_for
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 import db
+
 
 app = Flask(__name__)
 # add the database to the app
 db.init_app(app)
+app.secret_key = 'super_secret_key' # used to encrypt the session cookie
 
 # Routes used to render a HTML file that can be edited in the templates folder.
 @app.route('/')
@@ -28,11 +32,15 @@ def buildingdirectory():
         'buildingdirectory.html')
     
 @app.route('/contribute')
+#@login_required # this route requires the user to be logged in
 def contribute():
     return render_template("contribute.html")
 
+
+# Database routes -------------------------------------------------------------
 # Routes used to add data to the database for areas in the building.
 @app.route('/add_area', methods=['POST'])
+@login_required # this route requires the user to be logged in
 def add_area():
     type = request.form['type']
     count = request.form['count']
@@ -51,6 +59,51 @@ def areas():
     db = db.get_db()
     areas = db.execute('SELECT * FROM area').fetchall()
     return render_template('areas.html', areas=areas)
+
+# Login section ---------------------------------------------------------------
+# Flask-Login setup
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# User class for Flask-Login
+class User(UserMixin):
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+# Flask-Login helper to retrieve a user from our db
+@login_manager.user_loader
+def load_user(user_id):
+    user_data = db.get_user_by_id(user_id)
+    if user_data:
+        return User(user_data['id'], user_data['username'], user_data['password'])
+    return None
+# Login routes
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user_data = db.get_user_by_username(username)
+
+        if user_data and user_data['password'] == password:
+            user = User(user_data['id'], user_data['username'], user_data['password'])
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            return 'Invalid username or password'
+
+    return render_template('login.html')
+
+# logout route
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

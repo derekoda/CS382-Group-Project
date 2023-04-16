@@ -46,3 +46,11 @@ CREATE TABLE floor_machine (
     FOREIGN KEY (floor_id) REFERENCES floor (id) ON DELETE CASCADE,
     FOREIGN KEY (machine_id) REFERENCES machine (id) ON DELETE CASCADE
 );
+/* 
+    For users to make an account, they must have a username and password.
+*/
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
