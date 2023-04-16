@@ -1,7 +1,16 @@
 from flask import *
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import current_user
+import click
 import db
+from db import get_db
+# for admin login
+import hashlib
+import os
+
+
+
 
 
 app = Flask(__name__)
@@ -86,16 +95,30 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user_data = db.get_user_by_username(username)
+        db = get_db()
+        error = None
+        user = db.execute(
+            'SELECT * FROM users WHERE username = ?', (username,)
+        ).fetchone()
 
-        if user_data and user_data['password'] == password:
-            user = User(user_data['id'], user_data['username'], user_data['password'])
-            login_user(user)
-            return redirect(url_for('index'))
+        if user is None:
+            error = 'Incorrect username.'
         else:
-            return 'Invalid username or password'
+            stored_password, stored_salt = user['password'], user['salt']
+            hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), stored_salt, 100000)
+
+            if stored_password != hashed_password:
+                error = 'Incorrect password.'
+
+        if error is None:
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
+
+        flash(error)
 
     return render_template('login.html')
+
 
 # logout route
 @app.route('/logout')
@@ -105,5 +128,7 @@ def logout():
     return redirect(url_for('index'))
 
 
+
 if __name__ == '__main__':
     app.run(debug=True)
+  

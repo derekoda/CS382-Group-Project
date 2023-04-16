@@ -2,6 +2,9 @@ import sqlite3
 import click
 from flask import g, current_app
 from flask.cli import with_appcontext
+# for admin login
+import hashlib
+import os
 
 DATABASE = 'afpwnsqt.db'
 
@@ -39,11 +42,6 @@ def init_db_command():
     init_db()
     click.echo('Initialized the database.')
 
-# used to initialize the app with the database.
-def init_app(app):
-    app.teardown_appcontext(close_db)
-    app.cli.add_command(init_db_command)
-
 # for login
 def get_user_by_id(user_id):
     db = get_db()
@@ -54,4 +52,41 @@ def get_user_by_username(username):
     db = get_db()
     user = db.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
     return user
+
+# Admin routes ---------------------------------------------------------------
+@click.command('create-admin')
+@click.option('--username', prompt='Username', help='The admin username.')
+@click.option('--password', prompt='Password', help='The admin password.')
+@click.option('--email', prompt='Email', help='The admin email.')
+def create_admin(username, password, email):
+    """Create an admin user."""
+    # Hash the password
+    salt = os.urandom(32)
+    hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+
+    db = get_db()
+
+    # Check if the user already exists
+    user = db.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
+
+    if user is not None:
+        click.echo(f'Error: User with username {username} already exists.')
+        return
+
+    # Insert the admin user into the database
+    db.execute(
+        'INSERT INTO users (username, email, password, salt, is_admin) VALUES (?, ?, ?, ?, ?)',
+        (username, email, hashed_password, salt, 1)
+    )
+    db.commit()
+
+    click.echo(f'Admin user {username} created successfully.')
+
+
+# used to initialize the app with the database.
+def init_app(app):
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command, 'init-db') # This is used to initialize the database.
+    app.cli.add_command(create_admin, 'create-admin') # This is used to create an admin user.
+
 

@@ -50,7 +50,12 @@ CREATE TABLE floor_machine (
     For users to make an account, they must have a username and password.
 */
 CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL UNIQUE,
+  email TEXT NOT NULL UNIQUE,
+  password BLOB NOT NULL,
+  salt BLOB NOT NULL,
+  is_admin INTEGER NOT NULL
 );
+
+
