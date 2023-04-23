@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+
+{% block content%}
+
+<div class="page-title">
+  <h1><br>Find a Study Area</h1>
+</div>
+<div class="container text-center">
+  <div class="row align-items-start">
+    <div class="col">
+    </div>
+    <div class="col">
+      <form action="{{url_for('find_area')}}" method="post" enctype="multipart/form-data">
+        <div class="questionnaire">
+          <label for="areaAttribute" class="form-label"><br>Select a study room requirement:<br></label>
+          <select class="form-select" id="areaAttributeInput" name="attribute">
+            <option selected>Choose...</option>
+            <option value="computer">Computer</option>
+            <option value="single_study">Single Study Area</option>
+            <option value="group_study">Group Study Area</option>
+            <option value="outlet">Electrical Outlet</option>
+            <option value="whiteboard">Whiteboard</option>
+            <option value="printer">Printer</option>
+            <option value="quiet">Quiet</option>
+            <option value="loud">Loud</option>
+            <option value="padded_chair">Padded Chair</option>
+            <option value="window">Window</option>
+            <option value="near_exit">Near an Exit</option>
+            <option value="none">None</option>
+          </select>
+
+        </div>
+        <div class="questionnaire">
+          <label for="areaAttribute2" class="form-label"><br>Select another study room requirement:<br></label>
+          <select class="form-select" id="areaAttributeInput2" name="attribute2">
+            <option selected>Choose...</option>
+            <option value="computer">Computer</option>
+            <option value="single_study">Single Study Area</option>
+            <option value="group_study">Group Study Area</option>
+            <option value="outlet">Electrical Outlet</option>
+            <option value="whiteboard">Whiteboard</option>
+            <option value="printer">Printer</option>
+            <option value="quiet">Quiet</option>
+            <option value="loud">Loud</option>
+            <option value="padded_chair">Padded Chair</option>
+            <option value="window">Window</option>
+            <option value="near_exit">Near an Exit</option>
+            <option value="none">None</option>
+          </select>
+
+        </div>
+        <div class="questionnaire">
+          <label for="vendingMachine" class="form-label"><br>Select vending machine preference:<br></label>
+          <select class="form-select" id="vendingInput" name="vending">
+            <option selected>Choose...</option>
+            <option value="soda">Soda</option>
+            <option value="snack">Snack</option>
+            <option value="energy_drink">Energy Drink</option>
+            <option value="none">None</option>
+          </select>
+          <br>
+        </div>
+        <div class="questionnaire">
+          <button class="btn btn-primary" type="submit" style="background-color: #852135;">Submit</button>
+        </div>
+      </form>   
+      </div>
+      <div class="col">
+      </div>
+  </div>
+</div>
+{% endblock%}

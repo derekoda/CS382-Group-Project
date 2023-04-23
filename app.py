@@ -27,9 +27,24 @@ def index():
 def index_redirect():
     return Flask.redirect(url_for('index'))
 
-@app.route('/about')
-def about():
-    return render_template("about.html")
+@app.route('/findarea', methods=['GET','POST'])
+def findarea():
+    return render_template("findarea.html")
+
+@app.route('/areas', methods=['GET','POST'])
+def find_area():
+    
+    if request.method == 'POST':
+        global attribute1
+        global attribute2
+        global vending
+        
+        # stores form data in variables
+        attribute1 = request.form['attribute']
+        attribute2 = request.form['attribute2']
+        vending = request.form['vending']
+
+    return render_template("areas.html")
 
 @app.route('/contact')
 def contact():
@@ -37,8 +52,7 @@ def contact():
 
 @app.route('/buildingdirectory')
 def buildingdirectory():
-    return render_template(
-        'buildingdirectory.html')
+    return render_template('buildingdirectory.html')
     
 @app.route('/contribute')
 #@login_required # this route requires the user to be logged in
