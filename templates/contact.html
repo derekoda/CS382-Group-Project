@@ -2,7 +2,38 @@
 
 
 {% block content%}
-
-<!-- Individual page content goes here -->
+<form>
+    <div class="page-title">
+        <h1> <br>Contact Us </h1>
+    </div>
+    <!-- Name input -->
+    <div class="form-outline mb-4" style="display: block; margin-left: auto; margin-right: auto; width: 35%; text-align: center;">
+      <input type="text" id="form4Example1" class="form-control" />
+      <label class="form-label" for="form4Example1">Name</label>
+    </div>
+  
+    <!-- Email input -->
+    <div class="form-outline mb-4" style="display: block; margin-left: auto; margin-right: auto; width: 35%; text-align: center;">
+      <input type="email" id="form4Example2" class="form-control" />
+      <label class="form-label" for="form4Example2">Email address</label>
+    </div>
+  
+    <!-- Message input -->
+    <div class="form-outline mb-4" style="display: block; margin-left: auto; margin-right: auto; width: 35%; text-align: center;">
+      <textarea class="form-control" id="form4Example3" rows="4"></textarea>
+      <label class="form-label" for="form4Example3">Message</label>
+    </div>
+  
+    <!-- Checkbox -->
+    <div class="form-check d-flex justify-content-center mb-4" style="display: block; margin-left: auto; margin-right: auto; width: 35%; text-align: center;">
+      <input class="form-check-input me-2" type="checkbox" value="" id="form4Example4" checked />
+      <label class="form-check-label" for="form4Example4">
+        Send me a copy of this message
+      </label>
+    </div>
+  
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4" style="display: block; margin-left: auto; margin-right: auto; width: 35%; text-align: center;">Send</button>
+  </form>
 
 {% endblock%}
