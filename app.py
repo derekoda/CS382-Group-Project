@@ -25,7 +25,7 @@ def index():
 
 @app.route('/index')
 def index_redirect():
-    return Flask.redirect(url_for('index'))
+    return redirect(url_for('index'))
 
 @app.route('/findarea', methods=['GET','POST'])
 def findarea():
@@ -116,6 +116,7 @@ def login():
         password = request.form['password']
         db = get_db()
         error = None
+        next = request.args.get('next')
         user = db.execute(
             'SELECT * FROM users WHERE username = ?', (username,)
         ).fetchone()
@@ -133,7 +134,10 @@ def login():
             session.clear()
             session['user_id'] = user['id']
             login_user(load_user(session['user_id']))
-            return redirect(url_for('index'))
+            if next is None:
+                return redirect(url_for('index'))
+            else:
+                return redirect(url_for('contribute'))
 
         flash(error)
 
