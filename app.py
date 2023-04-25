@@ -68,7 +68,7 @@ def add_area():
     type = request.form['type']
     count = request.form['count']
 
-    db = db.get_db()
+    db = get_db()
     db.execute(
         'INSERT INTO area (type, count) VALUES (?, ?)',
         (type, count)
@@ -79,7 +79,7 @@ def add_area():
 # Routes used to get data from the database for areas in the building.
 @app.route('/areas')
 def areas():
-    db = db.get_db()
+    db = get_db()
     areas = db.execute('SELECT * FROM area').fetchall()
     return render_template('areas.html', areas=areas)
 
