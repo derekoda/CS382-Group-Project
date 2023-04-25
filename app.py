@@ -95,6 +95,11 @@ class User(UserMixin):
         self.id = id
         self.username = username
         self.password = password
+        self.is_authenticated
+        self.is_active
+        self.is_anonymous
+    def get_id(self):
+        return self.id
 
 # Flask-Login helper to retrieve a user from our db
 @login_manager.user_loader
@@ -127,6 +132,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
+            login_user(load_user(session['user_id']))
             return redirect(url_for('index'))
 
         flash(error)
