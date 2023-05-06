@@ -2,7 +2,9 @@ CREATE TABLE area (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     type TEXT NOT NULL CHECK (type IN ('computer', 'single_study', 'group_study', 'outlet', 'whiteboard', 'printer', 'quiet', 'loud', 'large_desk', 'small_desk', 'medium_desk', 'padded_chair', 'non_padded_chair', 'window', 'no_window', 'near_exit')),
     count INTEGER NOT NULL,
-    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    lat REAL NOT NULL,
+    lng REAL NOT NULL
 );
 
 CREATE TABLE area_comment (

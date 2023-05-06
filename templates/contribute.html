@@ -3,10 +3,18 @@
 
 {% block content%}
 
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+
+<link rel="stylesheet" type="text/css" href="../static/css/style2.css" />
+<script type="module" src="../static/js/index2.js"></script>
+
 <!-- For area -->
 <div class="page-title">
     <h1><br>Contribute</h1>
+    <h3><br>Select location of contribution:</h3>
   </div>
+  <div id="map2"></div>
   <div class="container text-center">
     <div class="row align-items-start">
       <div class="col">
@@ -43,7 +51,11 @@
           </div>
 
           <div class="questionnaire">
-            <br>
+            <label for="location"></label>
+            <input type="hidden" id="location" name="location">
+          </div>
+
+          <div class="questionnaire">
             <button class="btn btn-primary" type="submit" value="Add Area" style="background-color: #852135;">Submit</button>
           </div>
         </form>   
@@ -52,4 +64,9 @@
         </div>
     </div>
   </div>
+
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2I7q4pd3YMVYHD1Z1CNsSuJTgKdXQoso&callback=initMap2&libraries=places&v=weekly"
+defer
+></script>
 {% endblock%}

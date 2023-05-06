@@ -55,6 +55,7 @@ def get_user_by_username(username):
 
 # Admin routes ---------------------------------------------------------------
 @click.command('create-admin')
+@with_appcontext
 @click.option('--username', prompt='Username', help='The admin username.')
 @click.option('--password', prompt='Password', help='The admin password.')
 @click.option('--email', prompt='Email', help='The admin email.')
@@ -64,21 +65,22 @@ def create_admin(username, password, email):
     salt = os.urandom(32)
     hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
 
-    db = get_db()
+    with current_app.app_context():
+        db = get_db()
 
-    # Check if the user already exists
-    user = db.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
+        # Check if the user already exists
+        user = db.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
 
-    if user is not None:
-        click.echo(f'Error: User with username {username} already exists.')
-        return
+        if user is not None:
+            click.echo(f'Error: User with username {username} already exists.')
+            return
 
-    # Insert the admin user into the database
-    db.execute(
-        'INSERT INTO users (username, email, password, salt, is_admin) VALUES (?, ?, ?, ?, ?)',
-        (username, email, hashed_password, salt, 1)
-    )
-    db.commit()
+        # Insert the admin user into the database
+        db.execute(
+            'INSERT INTO users (username, email, password, salt, is_admin) VALUES (?, ?, ?, ?, ?)',
+            (username, email, hashed_password, salt, 1)
+        )
+        db.commit()
 
     click.echo(f'Admin user {username} created successfully.')
 

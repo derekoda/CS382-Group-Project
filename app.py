@@ -64,7 +64,9 @@ def contact():
 
 @app.route('/buildingdirectory')
 def buildingdirectory():
-    return render_template('buildingdirectory.html')
+    db = get_db()
+    areas = db.execute("SELECT * FROM area ").fetchall()
+    return render_template('buildingdirectory.html', areas=areas)
     
 @app.route('/contribute')
 #@login_required # this route requires the user to be logged in
@@ -79,11 +81,16 @@ def contribute():
 def add_area():
     type = request.form['type']
     count = request.form['count']
+    location = request.form['location']
+
+    location = location.split(",")
+    latitude = float(location[0][1:])
+    longitude = float(location[1][:-1])
 
     db = get_db()
     db.execute(
-        'INSERT INTO area (type, count) VALUES (?, ?)',
-        (type, count)
+        'INSERT INTO area (type, count, lat, lng) VALUES (?, ?, ?, ?)',
+        (type, count, latitude, longitude)
     )
     db.commit()
     return redirect(url_for('index'))
