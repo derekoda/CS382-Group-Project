@@ -4,14 +4,52 @@
 {% block content%}
 
 <!-- For area -->
+<div class="page-title">
+    <h1><br>Contribute</h1>
+  </div>
+  <div class="container text-center">
+    <div class="row align-items-start">
+      <div class="col">
+      </div>
+      <div class="col">
+        <form action="{{url_for('add_area')}}" method="post" enctype="multipart/form-data">
+          <div class="questionnaire">
+            <label for="areaAttribute" class="form-label"><br>Select the item type you are contributing:<br></label>
+            <select class="form-select" id="type" name="type" required>
+              <option value="">Choose...</option>
+              <option value="computer">Computer</option>
+              <option value="single_study">Single Study Area</option>
+              <option value="group_study">Group Study Area</option>
+              <option value="outlet">Electrical Outlet</option>
+              <option value="whiteboard">Whiteboard</option>
+              <option value="printer">Printer</option>
+              <option value="quiet">Quiet</option>
+              <option value="loud">Loud</option>
+              <option value="large_desk">Large Desk</option>
+              <option value="medium_desk">Medium Desk</option>
+              <option value="small_desk">Small Desk</option>
+              <option value="padded_chair">Padded Chair</option>
+              <option value="non_padded_chair">Non-Padded Chair</option>
+              <option value="window">Window</option>
+              <option value="no_window">No Window</option>
+              <option value="near_exit">Near an Exit</option>
+            </select>
+            <br>
+          </div>
 
-<form action="{{ url_for('add_area') }}" method="post">
-    <label for="type">Type:</label>
-    <input type="text" id="type" name="type" required>
-    <label for="count">Count:</label>
-    <input type="number" id="count" name="count" required>
-    <input type="submit" value="Add Area">
-</form>
+          <div class="questionnaire">
+            <label for="count">Count:</label>
+            <input type="number" id="count" name="count" min="1" required>
+          </div>
 
-
+          <div class="questionnaire">
+            <br>
+            <button class="btn btn-primary" type="submit" value="Add Area" style="background-color: #852135;">Submit</button>
+          </div>
+        </form>   
+        </div>
+        <div class="col">
+        </div>
+    </div>
+  </div>
 {% endblock%}
