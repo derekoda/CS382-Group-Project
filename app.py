@@ -44,7 +44,19 @@ def find_area():
         attribute2 = request.form['attribute2']
         vending = request.form['vending']
 
-    return render_template("areas.html")
+    db = get_db()
+
+    if(attribute2 != ''):
+        areas = db.execute(
+        "SELECT * FROM area WHERE (type = ? OR type = ?)",
+        (attribute1,attribute2)
+        ).fetchall()
+    else:
+        areas = db.execute(
+        "SELECT * FROM area WHERE type = ?",
+        (attribute1,)
+        ).fetchall()
+    return render_template('areas.html', areas=areas)
 
 @app.route('/contact')
 def contact():
