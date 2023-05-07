@@ -27,6 +27,10 @@ def index():
 def index_redirect():
     return redirect(url_for('index'))
 
+@app.route('/zuhl', methods=['GET','POST'])
+def zuhl():
+    return render_template("zuhl.html")
+
 @app.route('/findarea', methods=['GET','POST'])
 def findarea():
     return render_template("findarea.html")
