@@ -30,6 +30,38 @@
         <span class="close">&times;</span>
         <h2 id="area-type"></h2>
         <p id="area-count"></p>
+        <script>
+            if(window.location.href.indexOf("near_exit") > -1) {
+                document.getElementById("area-type").innerHTML = "Near Exit";
+                <p>Exit</p>
+            }
+            if(window.location.href.indexOf("snack") > -1) {
+                document.getElementById("area-type").innerHTML = "Snack";
+                <p>Snack</p>
+            }
+            if(window.location.href.indexOf("soda") > -1) {
+                <p>Soda</p>
+                document.getElementById("area-type").innerHTML = "Soda";
+                
+            }
+            if(window.location.href.indexOf("energy") > -1) {
+                document.getElementById("area-type").innerHTML = "Energy";
+            }
+            if(window.location.href.indexOf("entrance") > -1) {
+                document.getElementById("area-type").innerHTML = "Entrance";
+            }
+            if(window.location.href.indexOf("checkout") > -1) {
+                document.getElementById("area-type").innerHTML = "Checkout";
+            }
+            if(window.location.href.indexOf("single_study") > -1) {
+                <p>Single</p>
+                document.getElementById("area-type").innerHTML = "Single Study";
+            }
+            if(window.location.href.indexOf("group_study") > -1) {
+                document.getElementById("area-type").innerHTML = "Group Study";
+            }
+        </script>
+        <p>Study Area</p>
     </div>
 </div>
 
