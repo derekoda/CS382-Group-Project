@@ -1,5 +1,5 @@
 from flask import *
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from flask_login import current_user
 import click
@@ -30,6 +30,22 @@ def index_redirect():
 @app.route('/zuhl', methods=['GET','POST'])
 def zuhl():
     return render_template("zuhl.html")
+
+@app.route('/my_areas/<area_id>')
+def get_area(area_id):
+    db = get_db()
+    area = db.execute('SELECT * FROM my_areas WHERE id = ?', (area_id,)).fetchone()
+    db.close()
+
+    if area is None:
+        return jsonify({"error": "Area not found"}), 404
+
+    return jsonify({"type": area["type"], "count": area["count"]})
+
+
+
+
+
 
 @app.route('/findarea', methods=['GET','POST'])
 def findarea():

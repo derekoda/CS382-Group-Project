@@ -7,6 +7,18 @@ CREATE TABLE area (
     lng REAL NOT NULL
 );
 
+CREATE TABLE my_areas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL,
+    count INTEGER NOT NULL,
+    description TEXT,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    lat REAL NOT NULL,
+    lng REAL NOT NULL,
+    coords TEXT NOT NULL
+);
+
+
 CREATE TABLE area_comment (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     area_id INTEGER NOT NULL,

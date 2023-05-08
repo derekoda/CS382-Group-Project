@@ -2,6 +2,7 @@ import sqlite3
 import click
 from flask import g, current_app
 from flask.cli import with_appcontext
+from flask import jsonify
 # for admin login
 import hashlib
 import os
@@ -41,6 +42,22 @@ def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
     click.echo('Initialized the database.')
+
+def get_area(area_id):
+    db = get_db()
+    query = "SELECT * FROM my_areas WHERE id = ?"
+    area = db.execute(query, (area_id,)).fetchone()
+
+    print("SQL Query:", query)  # print the SQL query
+
+    if not area:
+        return jsonify({"error": "Area not found"}), 404
+
+    return jsonify({"type": area["type"], "count": area["count"]})
+
+
+
+
 
 # for login
 def get_user_by_id(user_id):
